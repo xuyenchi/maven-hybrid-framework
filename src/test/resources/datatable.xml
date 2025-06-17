@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Run Test Nopcomerce">
+    <parameter name="userUrl" value="https://www.jqueryscript.net/demo/CRUD-Data-Grid-Plugin-jQuery-Quickgrid/"></parameter>
+
+    <test name="Run on Firfox">
+        <parameter name="browser" value="firefox"></parameter>
+        <classes>
+
+            <class name="com.jquery.User_01_Lv13_Upload" />
+        </classes>
+    </test>
+<!--    <test name=" Run on Chrome">-->
+<!--        <parameter name="browser" value="chrome"></parameter>-->
+<!--        <classes>-->
+
+<!--            <class name="com.nopcomerce.user.User_01_Lv5_Multiple_Browser" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
+</suite> <!-- Suite -->

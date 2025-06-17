@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Run Test Nopcomerce">
+    <listeners>
+        <listener class-name="commons.MethodListener"></listener>
+        <listener class-name="reportConfigs.ExtentListener"></listener>
+        <listener class-name="reportConfigs.AllureListener"></listener>
+    </listeners>
+    <parameter name="userUrl" value="http://live.techpanda.org/"></parameter>
+    <parameter name="adminUrl" value="https://admin-demo.nopcommerce.com/"></parameter>
+
+    <test name="Run on Firefox">
+        <parameter name="browser" value="firefox"></parameter>
+        <classes>
+
+            <class name="com.nopcomerce.user.User_01_Lv16_ExtentReport" />
+        </classes>
+    </test>
+<!--    <test name="Run on Firefox Headless">-->
+<!--        <parameter name="browser" value="hfirefox"></parameter>-->
+<!--        <classes>-->
+
+<!--            <class name="com.nopcomerce.user.User_01_Lv19_Browser_Config" />-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Run on Chrome Headless">-->
+<!--        <parameter name="browser" value="hchrome"></parameter>-->
+<!--        <classes>-->
+
+<!--            <class name="com.nopcomerce.user.User_01_Lv19_Browser_Config" />-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Run on Chrome">-->
+<!--        <parameter name="browser" value="chrome"></parameter>-->
+<!--        <classes>-->
+
+<!--            <class name="com.nopcomerce.user.User_01_Lv5_Multiple_Browser" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
+</suite> <!-- Suite -->
