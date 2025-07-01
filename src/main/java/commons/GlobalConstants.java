@@ -47,7 +47,7 @@ public class GlobalConstants {
     public static final String ALLURE_PATH = PROJECT_PATH + SEPARATOR + "htmlAllure" + SEPARATOR;
 
     //Data test
-    public static final String DATA_TEST_PATH = PROJECT_PATH + SEPARATOR + "dataTest" + SEPARATOR;
+    public static final String DATA_TEST_PATH = PROJECT_PATH + SEPARATOR + "testdata" + SEPARATOR;
     public static final String ENVIRONMENT_CONFIG_PATH = PROJECT_PATH + SEPARATOR + "environmentConfig" + SEPARATOR;
 
 

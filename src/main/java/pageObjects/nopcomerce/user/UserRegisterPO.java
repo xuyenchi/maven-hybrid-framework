@@ -5,9 +5,12 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageObjects.nopcomerce.PageGenerator;
 import pageUIs.user.UserRegisterPageUI;
+import pojo.UserInfo;
+
 
 public class UserRegisterPO extends BasePage {
     private WebDriver driver;
+
 
     public UserRegisterPO(WebDriver driver) {
         this.driver = driver;
@@ -46,5 +49,15 @@ public class UserRegisterPO extends BasePage {
     public UserMyAccountPO clickRegisterButon() {
         clickToElement(driver, UserRegisterPageUI.REGISTER_BUTTON);
         return PageGenerator.getUserMyAccountPage(driver);
+    }
+
+
+    public void enterFormRegister(UserInfo userInfo) {
+        enterTextboxByID(driver, "firstname", userInfo.getFirstName());
+        enterTextboxByID(driver, "middlename", userInfo.getMiddleName());
+        enterTextboxByID(driver, "lastname", userInfo.getLastName());
+        enterTextboxByID(driver, "email_address", userInfo.getEmailAddress());
+        enterTextboxByID(driver, "password", userInfo.getPassword());
+        enterTextboxByID(driver, "confirmation", userInfo.getPassword());
     }
 }

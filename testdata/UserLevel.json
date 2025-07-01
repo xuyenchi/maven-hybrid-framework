@@ -1,0 +1,16 @@
+{
+  "Register": {
+    "fullname" : "Xuyen Ngoc"
+
+  },
+  "Login": {
+    "username": "Xuyen",
+    "password": "Xuyen@123"
+
+  },
+  "firstname": "Xuyen",
+  "lastname": "Le",
+  "middlename": "Ngoc",
+  "email": "xuyen.le",
+  "password": "Xuyen2123"
+}

@@ -1,0 +1,19 @@
+{
+  "employees": [
+    {
+      "name": "Xuyen",
+      "email": "xuyen@mail.com",
+      "age": 29
+    },
+    {
+      "name": "Tuong",
+      "email": "tuong@mail.com",
+      "age": 28
+    },
+    {
+      "name": "Huy",
+      "email": "huy@mail.com",
+      "age": 23
+    }
+  ]
+}

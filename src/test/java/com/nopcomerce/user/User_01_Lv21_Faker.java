@@ -1,7 +1,9 @@
 package com.nopcomerce.user;
 
-import com.aventstack.extentreports.Status;
 import commons.BaseTest;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -10,25 +12,24 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.nopcomerce.PageGenerator;
 import pageObjects.nopcomerce.user.*;
-import reportConfigs.ExtentManager;
+import utilities.FakerConfig;
 
-import java.lang.reflect.Method;
-
-public class User_01_Lv16_ExtentReport extends BaseTest {
+public class User_01_Lv21_Faker extends BaseTest {
     WebDriver driver;
     private UserHomePO homePage;
     private UserRegisterPO registerPage;
     private UserMyAccountPO myAccountPage;
     private UserAddressBookPO addressBookPage;
     private UserOrderPO orderPage;
-    String firstname = "Le";
-    String middlename = "Ngoc";
-    String lastname = "Xuyen";
-    String email_address = "xuyen" + generateRandomNumber() + "@gmail.com";
-    String password = "123456";
-    String fullname = firstname + " " + middlename + " " + lastname;
+    private FakerConfig faker;
+    String firstname;
+    String middlename;
+    String lastname;
+    String email_address;
+    String password;
+    String fullname;
 
-    public User_01_Lv16_ExtentReport(){
+    public User_01_Lv21_Faker() {
         super();
     }
 
@@ -37,36 +38,33 @@ public class User_01_Lv16_ExtentReport extends BaseTest {
     public void beforeClass(String browserName) {
         driver = getBrowserName(browserName);
         homePage = PageGenerator.getHomePage(driver);
+        faker = FakerConfig.getFaker();
+        firstname = faker.getFirstName();
+        middlename = faker.getLastName();
+        lastname = faker.getLastName();
+        email_address = faker.getEmailAddress();
+        password = faker.getPassword();
+        fullname = firstname + " " + middlename + " " + lastname;
+
 
     }
 
+    @Description("Register new account")
+    @Severity(SeverityLevel.CRITICAL)
     @Test
-    public void TC_01_Register_Techpanda(Method method) {
-        ExtentManager.startTest(method.getName(), "TC 01 Register");
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register");
-        ExtentManager.getTest().log(Status.INFO," TC01 Register Step 1 : Open register page");
+    public void TC_01_Register_Techpanda() {
+
         registerPage = homePage.openRegisterPage();
         Assert.assertEquals(homePage.getTextpageTitle(), "CREATE AN ACCOUNT");
         //qua trang register
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register Step 2 : Enter user Firstname " + firstname);
-        registerPage.enterFirstnameTextbox(firstname);
 
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register Step 2 : Enter user Middle name " + middlename);
-        registerPage.enterMiddlenameTextbox(middlename);
+        registerPage.enterTextboxByID(driver, "firstname", firstname);
+        registerPage.enterTextboxByID(driver, "middlename", middlename);
+        registerPage.enterTextboxByID(driver, "lastname", lastname);
+        registerPage.enterTextboxByID(driver, "email_address", email_address);
+        registerPage.enterTextboxByID(driver, "password", password);
+        registerPage.enterTextboxByID(driver, "confirmation", password);
 
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register Step 2 : Enter user lastname " + lastname);
-        registerPage.enterLastnameTextbox(lastname);
-
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register Step 2 : Enter user email " + email_address);
-        registerPage.enterEmailTextbox(email_address);
-
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register Step 2 : Enter user pass " + password);
-        registerPage.enterPasswordTextbox(password);
-
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register Step 2 : Enter user confirm pass " + password);
-        registerPage.enterConfirmPasswordTextbox(password);
-
-        ExtentManager.getTest().log(Status.INFO,"TC01 Register Step 3 : Click Register button ");
         myAccountPage = registerPage.clickRegisterButon();
 
         //qua trang my account
@@ -77,14 +75,14 @@ public class User_01_Lv16_ExtentReport extends BaseTest {
 
     }
 
-   // @Test
+    // @Test
     public void TC_02_MyAccount() throws InterruptedException {
         myAccountPage.clickAccountLink();
         myAccountPage = myAccountPage.openMyAccountPage();
         Thread.sleep(3000);
     }
 
-   // @Test
+    // @Test
     public void TC_03_Switch_Page() {
         //Myaccount -> Adrress
         addressBookPage = (UserAddressBookPO) myAccountPage.openSidebarLinkByPageName("Address Book");
@@ -97,7 +95,7 @@ public class User_01_Lv16_ExtentReport extends BaseTest {
 
     }
 
-   // @Test
+    // @Test
     public void TC_04_Switch_Page() {
         //Myaccount -> Adrress
         myAccountPage.openSidebarLinkByPageName("Address Book");
@@ -106,15 +104,15 @@ public class User_01_Lv16_ExtentReport extends BaseTest {
         //Adress -> Order
         addressBookPage.openSidebarLinkByPageName("My Orders");
         orderPage = PageGenerator.getUserOrderPage(driver);
-                // Order -> My account
+        // Order -> My account
         orderPage.openSidebarLinkByPageName("Account Dashboard");
         myAccountPage = PageGenerator.getUserMyAccountPage(driver);
         ;
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void afterClass() {
-        driver.quit();
+        closeBrowserDriver();
     }
 }
