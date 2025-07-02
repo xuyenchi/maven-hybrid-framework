@@ -6,14 +6,14 @@
 <!--        <listener class-name="reportConfigs.ExtentListener"></listener>-->
         <listener class-name="reportConfigs.AllureListener"></listener>
     </listeners>
-    <parameter name="userUrl" value="http://live.techpanda.org/"></parameter>
-    <parameter name="adminUrl" value="https://admin-demo.nopcommerce.com/"></parameter>
-
+<!--    <parameter name="userUrl" value="http://live.techpanda.org/"></parameter>-->
+<!--    <parameter name="adminUrl" value="https://admin-demo.nopcommerce.com/"></parameter>-->
+<parameter name="environment" value="prd"></parameter>
     <test name="Run on Firefox">
         <parameter name="browser" value="firefox"></parameter>
         <classes>
 
-            <class name="com.nopcomerce.user.User_01_Lv22_Data_Excel" />
+            <class name="com.nopcomerce.user.User_01_Lv23_Environment" />
         </classes>
     </test>
 <!--    <test name="Run on Firefox Headless">-->
