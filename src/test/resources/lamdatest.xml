@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Run Test Nopcomerce">
+    <listeners>
+        <listener class-name="commons.MethodListener"></listener>
+<!--        <listener class-name="reportConfigs.ExtentListener"></listener>-->
+        <listener class-name="reportConfigs.AllureListener"></listener>
+    </listeners>
+<!--    <parameter name="userUrl" value="http://live.techpanda.org/"></parameter>-->
+<!--    <parameter name="adminUrl" value="https://admin-demo.nopcommerce.com/"></parameter>-->
+<parameter name="environment" value="prd"></parameter>
+    <test name="Run on Chrome - Windows 11">
+        <parameter name="platform" value="Windows 11"></parameter>
+        <parameter name="browser" value="Firefox"></parameter>
+        <parameter name="browserVersion" value="140"></parameter>
+        <classes>
+            <class name="com.nopcomerce.user.User_01_Lv24_Cloud_LamdaTest" />
+        </classes>
+    </test>
+<!--    <test name="Run on Firefox - Mac">-->
+<!--        <parameter name="platform" value="macOS 14"></parameter>-->
+<!--        <parameter name="browser" value="Firefox"></parameter>-->
+<!--        <parameter name="browserVersion" value="140"></parameter>-->
+<!--        <classes>-->
+<!--            <class name="com.nopcomerce.user.User_01_Lv24_Cloud_SauceLab" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
+</suite> <!-- Suite -->

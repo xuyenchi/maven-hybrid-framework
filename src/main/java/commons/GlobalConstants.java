@@ -50,5 +50,18 @@ public class GlobalConstants {
     public static final String DATA_TEST_PATH = PROJECT_PATH + SEPARATOR + "testdata" + SEPARATOR;
     public static final String ENVIRONMENT_CONFIG_PATH = PROJECT_PATH + SEPARATOR + "environmentConfig" + SEPARATOR;
 
+    //BrowserStack
+    public static final String BROWSER_USERNAME = "ngcxuynlth1";
+    public static final String BROWSER_AUTOMATE_KEY = "C6gcEtYjys6KxGWW3i5U";
+    public static final String BROWSER_STACK_URL = "https://" + BROWSER_USERNAME + ":" + BROWSER_AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
 
+    //Saucelab
+    public static final String SAUCE_USERNAME = "oauth-ngocxuyenlt1996-1b393";
+    public static final String SAUCE_AUTOMATE_KEY = "95081210-db13-44fc-8f96-91a05e8b7d5d";
+    public static final String SAUCE_URL = "https://" + SAUCE_USERNAME + ":" + SAUCE_AUTOMATE_KEY + "@ondemand.eu-central-1.saucelabs.com:443/wd/hub";
+
+    //LamdaTest
+    public static final String LAMBDA_USERNAME = "ngocxuyenlt1996";
+    public static final String LAMBDA_AUTOMATE_KEY = "LT_HlKRvZFuMX2zEqcY3fuDCOsRTrKBjlBHEF5Uri60iKyXJds";
+    public static final String LAMBDA_URL = "https://hub.lambdatest.com/wd/hub";
 }

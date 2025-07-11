@@ -3,15 +3,21 @@ package commons;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.testng.Assert;
 import org.testng.Reporter;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
@@ -121,6 +127,141 @@ public class BaseTest {
         return driver;
     }
 
+    //hàm get browser với cloud
+    protected WebDriver getBrowserNameBrowserStack(String url, String osName, String osVersion, String browserName, String browserVersion) {
+
+        MutableCapabilities capabilities = new MutableCapabilities();
+        HashMap<String, Object> bstackOptions = new HashMap<String, Object>();
+        capabilities.setCapability("browserName", browserName);
+        bstackOptions.put("os", osName);
+        bstackOptions.put("osVersion", osVersion);
+        bstackOptions.put("browserVersion", browserVersion);
+        bstackOptions.put("userName", GlobalConstants.BROWSER_USERNAME);
+        bstackOptions.put("accessKey", GlobalConstants.BROWSER_AUTOMATE_KEY);
+        bstackOptions.put("seleniumVersion", "4.33.0");
+        capabilities.setCapability("bstack:options", bstackOptions);
+
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.BROWSER_STACK_URL), capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+    }
+
+    protected WebDriver getBrowserNameSauceLab(String url, String platform, String browserName, String browserVersion) {
+        MutableCapabilities capability = null;
+        browserName = browserName.toLowerCase();
+        switch (browserName) {
+            case "firefox":
+                FirefoxOptions fOptions = new FirefoxOptions();
+                fOptions.setPlatformName(platform);
+                fOptions.setBrowserVersion(browserVersion);
+                capability = fOptions;
+                break;
+            case "chrome":
+                ChromeOptions cOptions = new ChromeOptions();
+                cOptions.setPlatformName(platform);
+                cOptions.setBrowserVersion(browserVersion);
+                capability = cOptions;
+                break;
+            case "edge":
+                EdgeOptions eOptions = new EdgeOptions();
+                eOptions.setPlatformName(platform);
+                eOptions.setBrowserVersion(browserVersion);
+                capability = eOptions;
+                break;
+            case "safari":
+                SafariOptions sOptions = new SafariOptions();
+                sOptions.setPlatformName(platform);
+                sOptions.setBrowserVersion(browserVersion);
+                capability = sOptions;
+                break;
+            default:
+                throw new RuntimeException("Browser is not valid!");
+        }
+
+        HashMap<String, String> sauceOptions = new HashMap<String, String>();
+        sauceOptions.put("username", GlobalConstants.SAUCE_USERNAME);
+        sauceOptions.put("accessKey", GlobalConstants.SAUCE_AUTOMATE_KEY);
+        sauceOptions.put("build", "automation-fc-build");
+        sauceOptions.put("name", "Run on " + platform + " | " + browserName + " | " + browserVersion);
+
+        capability.setCapability("sauce:options", sauceOptions);
+
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.SAUCE_URL), capability);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+    }
+
+    protected WebDriver getBrowserNameLamdatest(String url, String platform, String browserName, String browserVersion) {
+        MutableCapabilities capability = null;
+        browserName = browserName.toLowerCase();
+        switch (browserName) {
+            case "firefox":
+                FirefoxOptions fOptions = new FirefoxOptions();
+                fOptions.setPlatformName(platform);
+                fOptions.setBrowserVersion(browserVersion);
+                capability = fOptions;
+                break;
+            case "chrome":
+                ChromeOptions cOptions = new ChromeOptions();
+                cOptions.setPlatformName(platform);
+                cOptions.setBrowserVersion(browserVersion);
+                capability = cOptions;
+                break;
+            case "edge":
+                EdgeOptions eOptions = new EdgeOptions();
+                eOptions.setPlatformName(platform);
+                eOptions.setBrowserVersion(browserVersion);
+                capability = eOptions;
+                break;
+            case "safari":
+                SafariOptions sOptions = new SafariOptions();
+                sOptions.setPlatformName(platform);
+                sOptions.setBrowserVersion(browserVersion);
+                capability = sOptions;
+                break;
+            default:
+                throw new RuntimeException("Browser is not valid!");
+        }
+
+        HashMap<String, String> lamdaOptions = new HashMap<String, String>();
+        lamdaOptions.put("username", GlobalConstants.LAMBDA_USERNAME);
+        lamdaOptions.put("accessKey", GlobalConstants.LAMBDA_AUTOMATE_KEY);
+        lamdaOptions.put("build", "automation-fc-build");
+        lamdaOptions.put("project", "Techpanda");
+        lamdaOptions.put("name", "Run on " + platform + " | " + browserName + " | " + browserVersion);
+        lamdaOptions.put("selenium_version", "4.33.0");
+//        lamdaOptions.put("w3c", true);
+
+
+        capability.setCapability("LT:Options", lamdaOptions);
+
+
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.LAMBDA_URL), capability);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+    }
+
     protected void assertFalse(boolean condition) {
         Assert.assertTrue(verifyFalse(condition));
     }
@@ -224,5 +365,4 @@ public class BaseTest {
             }
         }
     }
-
-}
+    }

@@ -12,32 +12,39 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.nopcomerce.PageGenerator;
 import pageObjects.nopcomerce.user.*;
+import pojo.UserDataJson;
+import utilities.PropertiesConfig;
 
-public class User_01_Lv17_AllureReport extends BaseTest {
+public class User_01_Lv24_Cloud_SauceLab extends BaseTest {
     WebDriver driver;
     private UserHomePO homePage;
     private UserRegisterPO registerPage;
     private UserMyAccountPO myAccountPage;
     private UserAddressBookPO addressBookPage;
     private UserOrderPO orderPage;
-    String firstname = "Le";
-    String middlename = "Ngoc";
-    String lastname = "Xuyen";
-    String email_address = "xuyen" + generateRandomNumber() + "@gmail.com";
-    String password = "123456";
-    String fullname = firstname + " " + middlename + " " + lastname;
+    public UserDataJson userDataJson;
+    private String emailAddress, fullName;
+    private PropertiesConfig propertiesConfig;
 
-    public User_01_Lv17_AllureReport(){
+
+    public User_01_Lv24_Cloud_SauceLab() {
         super();
     }
 
-    @Parameters("browser")
+    @Parameters({"environment", "platform",  "browser", "browserVersion"})
     @BeforeClass
-    public void beforeClass(String browserName) {
-        driver = getBrowserName(browserName);
+    public void beforeClass(String environment, String platform, String browserName, String browserVersion) {
+        propertiesConfig = PropertiesConfig.getProperties(environment);
+        driver = getBrowserNameSauceLab(propertiesConfig.getApplicationUrl(), platform, browserName, browserVersion);
+      //  driver = getBrowserName(browserName, propertiesConfig.getApplicationUrl());
         homePage = PageGenerator.getHomePage(driver);
+        userDataJson = UserDataJson.getUser();
+        emailAddress = userDataJson.getEmailAddress() + generateRandomNumber() + "@gmail.com";
+        fullName = userDataJson.getFirstName() + " " + userDataJson.getMiddleName() + " " + userDataJson.getLastName();
 
     }
+
+
 
     @Description("Register new account")
     @Severity(SeverityLevel.CRITICAL)
@@ -47,36 +54,36 @@ public class User_01_Lv17_AllureReport extends BaseTest {
         registerPage = homePage.openRegisterPage();
         Assert.assertEquals(homePage.getTextpageTitle(), "CREATE AN ACCOUNT");
         //qua trang register
-        registerPage.enterFirstnameTextbox(firstname);
 
-        registerPage.enterMiddlenameTextbox(middlename);
-
-        registerPage.enterLastnameTextbox(lastname);
-
-        registerPage.enterEmailTextbox(email_address);
-
-        registerPage.enterPasswordTextbox(password);
-
-        registerPage.enterConfirmPasswordTextbox(password);
+        registerPage.enterTextboxByID(driver, "firstname", userDataJson.getFirstName());
+        registerPage.enterTextboxByID(driver, "middlename", userDataJson.getMiddleName());
+        registerPage.enterTextboxByID(driver, "lastname", userDataJson.getLastName());
+        registerPage.enterTextboxByID(driver, "email_address", emailAddress);
+        registerPage.enterTextboxByID(driver, "password", userDataJson.getPassword());
+        registerPage.enterTextboxByID(driver, "confirmation", userDataJson.getPassword());
 
         myAccountPage = registerPage.clickRegisterButon();
 
         //qua trang my account
-        Assert.assertEquals(myAccountPage.getSuccessRegister(), "Thank you for registering with Main Website Store....");
-        Assert.assertTrue(myAccountPage.getContactInfo().contains(fullname));
-        Assert.assertTrue(myAccountPage.getContactInfo().contains(email_address));
+        Assert.assertEquals(myAccountPage.getSuccessRegister(), "Thank you for registering with Main Website Store.");
+        System.out.printf("---Asert Fullname---");
+        System.out.println("Get fullname system : " + myAccountPage.getContactInfo());
+        System.out.println("Get fullname variable : " + fullName);
+        Assert.assertTrue(myAccountPage.getContactInfo().contains(fullName));
+        System.out.println("---Assert Email---");
+        Assert.assertTrue(myAccountPage.getContactInfo().contains(userDataJson.getEmailAddress()));
 
 
     }
 
-   // @Test
+    // @Test
     public void TC_02_MyAccount() throws InterruptedException {
         myAccountPage.clickAccountLink();
         myAccountPage = myAccountPage.openMyAccountPage();
         Thread.sleep(3000);
     }
 
-   // @Test
+    // @Test
     public void TC_03_Switch_Page() {
         //Myaccount -> Adrress
         addressBookPage = (UserAddressBookPO) myAccountPage.openSidebarLinkByPageName("Address Book");
@@ -89,7 +96,7 @@ public class User_01_Lv17_AllureReport extends BaseTest {
 
     }
 
-   // @Test
+    // @Test
     public void TC_04_Switch_Page() {
         //Myaccount -> Adrress
         myAccountPage.openSidebarLinkByPageName("Address Book");
@@ -98,15 +105,15 @@ public class User_01_Lv17_AllureReport extends BaseTest {
         //Adress -> Order
         addressBookPage.openSidebarLinkByPageName("My Orders");
         orderPage = PageGenerator.getUserOrderPage(driver);
-                // Order -> My account
+        // Order -> My account
         orderPage.openSidebarLinkByPageName("Account Dashboard");
         myAccountPage = PageGenerator.getUserMyAccountPage(driver);
         ;
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void afterClass() {
-        driver.quit();
+        closeBrowserDriver();
     }
 }
