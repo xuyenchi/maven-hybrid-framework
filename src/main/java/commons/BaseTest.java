@@ -1,6 +1,7 @@
 package commons;
 
 
+import browserFactory.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.MutableCapabilities;
@@ -45,23 +46,26 @@ public class BaseTest {
         BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
         switch (browserList) {
             case CHROME:
-                driver = new ChromeDriver();
+                driver = new ChromeBrowser().getDriver();
                 break;
             case FIREFOX:
-                driver = new FirefoxDriver();
+               // driver = new FirefoxDriver();
+                driver = new FirefoxBrowser().getDriver();
 
                 break;
             case HFIREFOX:
-                FirefoxOptions options = new FirefoxOptions();
-                options.addArguments("-headless");
-                options.addArguments("window-size=1920x1080");
-                driver = new FirefoxDriver(options);
+//                FirefoxOptions options = new FirefoxOptions();
+//                options.addArguments("-headless");
+//                options.addArguments("window-size=1920x1080");
+//                driver = new FirefoxDriver(options);
+                driver = new FirefoxHeadlessBrowser().getDriver();
                 break;
             case HCHROME:
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--headless");
-                chromeOptions.addArguments("window-size=1920x1080");
-                driver = new ChromeDriver(chromeOptions);
+//                ChromeOptions chromeOptions = new ChromeOptions();
+//                chromeOptions.addArguments("--headless");
+//                chromeOptions.addArguments("window-size=1920x1080");
+//                driver = new ChromeDriver(chromeOptions);
+                driver = new ChromeHeadlessBrowser().getDriver();
                 break;
             default:
                 throw new RuntimeException("Browser not valid");
